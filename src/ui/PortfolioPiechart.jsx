@@ -1,69 +1,22 @@
-// "use client";
-
-// import {
-//   PieChart,
-//   Pie,
-//   Cell,
-//   Tooltip,
-//   Legend,
-//   ResponsiveContainer,
-// } from "recharts";
-
-// const data = [
-//   { name: "Instagram", value: 400 },
-//   { name: "Twitter", value: 300 },
-//   { name: "Facebook", value: 300 },
-//   { name: "TikTok", value: 200 },
-// ];
-
-// const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
-// export default function PortfolioPiechart() {
-//   return (
-//     // ResponsiveContainer makes the chart adapt to the parent div's size
-//     <div style={{ width: "100%", height: 300 }}>
-//       <ResponsiveContainer>
-//         <PieChart>
-//           <Pie
-//             data={data}
-//             cx="50%"
-//             cy="50%"
-//             innerRadius={60} // Remove this line if you want a full pie, keep it for "Donut"
-//             outerRadius={80}
-//             fill="#8884d8"
-//             paddingAngle={1}
-//             dataKey="value"
-//           >
-//             {data.map((entry, index) => (
-//               <Cell
-//                 key={`cell-${index}`}
-//                 fill={COLORS[index % COLORS.length]}
-//               />
-//             ))}
-//           </Pie>
-//           <Tooltip />
-//           <Legend />
-//         </PieChart>
-//       </ResponsiveContainer>
-//     </div>
-//   );
-// }
 "use client";
 import { Chart } from "react-google-charts";
-
-const data = [
-  ["Platform", "Users"],
-  ["Instagram", 400],
-  ["Twitter", 300],
-  ["Facebook", 300],
-  ["TikTok", 200],
-];
+import { portfolioLoadingAtoms } from "@/jotai/PortfolioAtoms";
+import { useAtom } from "jotai";
 
 const options = {
   is3D: true, // <--- The magic switch
   pieHole: 0.4, // Make it a donut (optional)
   backgroundColor: "transparent",
-  legend: { position: "bottom", textStyle: { color: "gray" } },
+  legend: {
+    position: "labeled",
+    textStyle: { color: "gray", fontSize: 12 },
+    alignment: "center",
+  },
+  pieSliceText: "percentage",
+  pieSliceTextStyle: {
+    color: "white",
+    fontSize: 10,
+  },
   slices: {
     0: { color: "#0088FE" },
     1: { color: "#00C49F" },
@@ -72,25 +25,35 @@ const options = {
   },
 
   chartArea: {
-    left: 5, // minimal margin left
-    top: 5, // minimal margin top
+    left: "10%", // minimal margin left
+    top: "10%", // minimal margin top
     right: 5, // minimal margin right
-    bottom: 50, // leaves room for the legend at the bottom
-    width: "100%",
-    height: "100%",
+    bottom: 30, // leaves room for the legend at the bottom
+    width: "70%",
+    height: "80%",
   },
 };
 
-export default function PortfolioPiechart() {
+export default function PortfolioPiechart({ tickerArray }) {
+  const [portfolioLoading, setPortfolioLoading] = useAtom(
+    portfolioLoadingAtoms
+  );
+  const data = [["Platform", "Users"], ...tickerArray];
+  console.log(tickerArray);
   return (
     <div className="w-auto h-auto">
-      <Chart
-        chartType="PieChart"
-        data={data}
-        options={options}
-        width={"100%"}
-        height={"300px"}
-      />
+      {/* {tickerArray.length > 0 ? ( */}
+      {!portfolioLoading ? (
+        <Chart
+          chartType="PieChart"
+          data={data}
+          options={options}
+          width={"100%"}
+          height={"300px"}
+        />
+      ) : (
+        <span className="loading loading-ring loading-md"></span>
+      )}
     </div>
   );
 }

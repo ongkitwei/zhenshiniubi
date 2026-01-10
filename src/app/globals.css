@@ -3,3 +3,6 @@
   themes: light --default, dark --prefersdark, halloween, corporate, cupcake,
     autumn;
 }
+@theme {
+  --font-poppins: var(--font-poppins-variable), "sans-serif";
+}

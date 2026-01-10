@@ -1,18 +1,61 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import PortfolioIntro from "./PortfolioIntro";
-import PortfolioReturnsLineGraph from "@/ui/PortfolioReturnsLineGraph";
 import PortfolioStats from "./PortfolioStats";
+import { useAtom } from "jotai";
+import { portfolioNameAtoms } from "@/jotai/PortfolioAtoms";
 
 function Header() {
+  const [portfolioChosen, setPortfolioChosen] = useAtom(portfolioNameAtoms);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://script.google.com/macros/s/AKfycbxVZzhrPzxZk7NlNY8l7TrswKtcmD26f4oO026IVWG8X9jCNho0ZKloFsB_pWakgmAtkg/exec"
+        );
+        const result = await response.json();
+
+        if (result.status === "success") {
+          console.log("Portfolio Data:", result.data);
+          // e.g., result.data["Moomoo Portfolio"].marketValue
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <div className="drawer drawer-open min-h-screen">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Navbar */}
-          <nav className="navbar w-full bg-none relative flex items-center justify-center">
-            <div className="text-3xl text-green-500 font-bold p-4">
-              真是牛逼
+          <nav className="navbar w-full bg-none relative flex items-center justify-center font-poppins font-light gap-x-8 p-6">
+            <div
+              className="text-xl hover:underline hover:cursor-pointer"
+              onClick={() => setPortfolioChosen("Moomoo Portfolio")}
+            >
+              KwMo
+            </div>
+            <div
+              className="text-xl hover:underline hover:cursor-pointer"
+              onClick={() => setPortfolioChosen("IBKR Portfolio")}
+            >
+              KwIb
+            </div>
+            <div
+              className="text-xl hover:underline hover:cursor-pointer"
+              onClick={() => setPortfolioChosen("Jia En Portfolio")}
+            >
+              JeMo
+            </div>
+            <div
+              className="text-xl hover:underline hover:cursor-pointer"
+              onClick={() => setPortfolioChosen("Mum Portfolio")}
+            >
+              LeeIb
             </div>
           </nav>
           <div className="flex flex-col items-center justify-center gap-4">
