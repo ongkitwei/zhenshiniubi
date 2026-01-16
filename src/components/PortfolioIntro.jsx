@@ -13,6 +13,7 @@ import Image from "next/image";
 import { PORTFOLIOS } from "../../constant";
 
 function PortfolioIntro() {
+  const [portfolioPieChartSector, setPortfolioPieChartSector] = useState([]);
   const [portfolioPieChartData, setPortfolioPieChartData] = useAtom(
     portfolioPieChartDataAtoms
   );
@@ -62,6 +63,7 @@ function PortfolioIntro() {
 
         if (result.status === "success") {
           // 1. Get the specific portfolio based on the user's choice
+          console.log("jus fetch result", result.data);
           const selectedPortfolio = result.data?.[portfolioChosen];
           setPortfolioPieChartData(result.data);
 
@@ -75,6 +77,9 @@ function PortfolioIntro() {
             );
 
             setTickersArray(formattedTickers);
+            setPortfolioPieChartSector(
+              Object.values(selectedPortfolio?.["sector"] || {})
+            );
             console.log("Formatted Data:", formattedTickers);
           }
         }
@@ -96,6 +101,9 @@ function PortfolioIntro() {
         );
 
         setTickersArray(formattedTickers);
+        setPortfolioPieChartSector(
+          Object.values(selectedPortfolio?.["sector"] || {})
+        );
         console.log("Formatted Data:", formattedTickers);
       }
     } else {
@@ -178,7 +186,18 @@ function PortfolioIntro() {
           </div>
         </div>
       </div>
-      <PortfolioPiechart tickerArray={tickersArray} />
+      <PortfolioPiechart
+        tickerArray={tickersArray}
+        innerRadius={70}
+        outerRadius={150}
+        paddingAngle={5}
+      />
+      <PortfolioPiechart
+        tickerArray={portfolioPieChartSector}
+        innerRadius={70}
+        outerRadius={160}
+        paddingAngle={5}
+      />
     </div>
   );
 }

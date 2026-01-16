@@ -29,7 +29,12 @@ const COLORS = [
   "#da70d6", // New distinct tones
 ];
 
-export default function PortfolioPiechart({ tickerArray }) {
+export default function PortfolioPiechart({
+  tickerArray,
+  innerRadius,
+  outerRadius,
+  paddingAngle,
+}) {
   const [portfolioLoading] = useAtom(portfolioLoadingAtoms);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -54,7 +59,7 @@ export default function PortfolioPiechart({ tickerArray }) {
       </div>
     );
   }
-
+  console.log("piechart data", tickerArray);
   return (
     <div className="w-full h-140 card-metric-style mt-6">
       <ResponsiveContainer width="100%" height="100%">
@@ -63,9 +68,9 @@ export default function PortfolioPiechart({ tickerArray }) {
             data={tickerArray}
             cx="50%"
             cy="50%"
-            innerRadius={70}
-            outerRadius={150}
-            paddingAngle={5}
+            innerRadius={innerRadius}
+            outerRadius={outerRadius}
+            paddingAngle={paddingAngle}
             dataKey="value"
             nameKey="name"
             label={({ name, percent }) =>
