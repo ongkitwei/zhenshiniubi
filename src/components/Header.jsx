@@ -82,7 +82,7 @@ function Header() {
                   />
                   <ul
                     tabIndex="-1"
-                    className="ml-4 dropdown-content menu bg-base-500 rounded-box z-1 w-52 p-2 shadow-sm"
+                    className="ml-4 dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow-sm"
                   >
                     <li>
                       <a

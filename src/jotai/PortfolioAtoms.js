@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 
 const tickersArrayAtoms = atom([]);
-const portfolioNameAtoms = atom("Moomoo Portfolio");
+const portfolioNameAtoms = atom("Kit Wei Moomoo Portfolio");
 const portfolioLoadingAtoms = atom(false);
 const portfolioPieChartDataAtoms = atom();
 export {

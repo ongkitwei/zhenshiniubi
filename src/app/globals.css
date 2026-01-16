@@ -6,3 +6,9 @@
 @theme {
   --font-poppins: var(--font-poppins-variable), "sans-serif";
 }
+
+@layer components {
+  .card-metric-style {
+    @apply bg-slate-900 border border-slate-800 transition-all shadow-sm hover:shadow-md flex flex-col items-start justify-center rounded-xl p-5;
+  }
+}

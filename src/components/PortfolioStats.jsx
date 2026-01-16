@@ -94,7 +94,7 @@ function PortfolioStats() {
     <div className="flex flex-col h-fit w-[85%] items-center justify-center gap-4">
       <PortfolioReturnsLineGraph />
       <PortfolioRadarChart />
-      <PortfolioTreemap />
+      {/* <PortfolioTreemap /> */}
       {/* <TradingviewNews />
       <FinlogixCurrency /> */}
     </div>

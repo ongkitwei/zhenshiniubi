@@ -40,8 +40,8 @@ export default function PortfolioPiechart({ tickerArray }) {
 
   if (!isMounted || portfolioLoading) {
     return (
-      <div className="flex justify-center items-center h-[300px]">
-        <span className="loading loading-ring loading-md"></span>
+      <div className="flex justify-center items-center h-[300px] w-full">
+        <span className="loading loading-ring loading-xl text-center"></span>
       </div>
     );
   }
@@ -56,18 +56,16 @@ export default function PortfolioPiechart({ tickerArray }) {
   }
 
   return (
-    /* 3. FIX: Ensure the parent div has a specific height (h-[300px]) 
-       ResponsiveContainer will now see 300px instead of 0px. */
-    <div className="w-full h-[450px]">
+    <div className="w-full h-140 card-metric-style mt-6">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart margin={{ bottom: 40 }}>
           <Pie
             data={tickerArray}
             cx="50%"
             cy="50%"
-            innerRadius={0}
-            outerRadius={120}
-            paddingAngle={1}
+            innerRadius={70}
+            outerRadius={150}
+            paddingAngle={5}
             dataKey="value"
             nameKey="name"
             label={({ name, percent }) =>
@@ -86,7 +84,6 @@ export default function PortfolioPiechart({ tickerArray }) {
             verticalAlign="bottom"
             align="center"
             iconType="circle"
-            // wrapperStyle allows us to control the layout of the legend area
             wrapperStyle={{
               width: "100%", // Ensures it spans the whole chart width
               fontSize: "12px",

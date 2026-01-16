@@ -1,7 +1,7 @@
 "use client";
 
 import PortfolioPiechart from "@/ui/PortfolioPiechart";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import {
   portfolioNameAtoms,
@@ -10,6 +10,7 @@ import {
   portfolioLoadingAtoms,
 } from "@/jotai/PortfolioAtoms";
 import Image from "next/image";
+import { PORTFOLIOS } from "../../constant";
 
 function PortfolioIntro() {
   const [portfolioPieChartData, setPortfolioPieChartData] = useAtom(
@@ -47,7 +48,7 @@ function PortfolioIntro() {
           const formattedTickers = selectedPortfolio.tickers.map(
             ([symbol, value]) => ({
               name: symbol,
-              value: Number(value), // Ensure it's a number for Recharts
+              value: Number(value),
             })
           );
 
@@ -103,13 +104,33 @@ function PortfolioIntro() {
   }, [portfolioChosen]);
 
   return (
-    <div className="flex flex-col h-fit w-[85%] items-start justify-center bg-white rounded-xl pt-12">
+    <div className="flex flex-col h-fit w-[85%] items-start justify-center rounded-xl pt-12">
       <div className="flex flex-col justify-center items-start w-full">
-        <header className="font-poppins text-2xl font-semibold pb-4">
-          {portfolioChosen}
-        </header>
-        <div className="grid grid-cols-3 gap-2 w-full">
-          <div className="w-60 h-25 shadow-lg bg-white flex flex-col items-start justify-center rounded-xl p-5 gap-y-1">
+        {/* start of header ui */}
+        <div className="mb-8 overflow-x-auto pb-4 scrollbar-hide">
+          <div className="inline-flex p-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm whitespace-nowrap">
+            {PORTFOLIOS.map((p) => (
+              <button
+                key={p}
+                onClick={() => setPortfolioChosen(p)}
+                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 flex items-center space-x-2 hover:cursor-pointer ${
+                  portfolioChosen === p
+                    ? "bg-indigo-600 text-white shadow-xl shadow-indigo-500/30 scale-[1.02]"
+                    : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                }`}
+              >
+                <span>{p}</span>
+                {portfolioChosen === p && (
+                  <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+        {/* end of header ui */}
+
+        <div className="flex flex-row gap-2 w-full justify-between">
+          <div className="card-metric-style md:w-55 lg:w-60 xl:w-70 h-30 gap-y-1">
             <div className="flex flex-row items-center justify-start">
               <Image
                 src="/layer-icon.svg"
@@ -124,7 +145,7 @@ function PortfolioIntro() {
             </p>
           </div>
 
-          <div className="w-60 h-25 shadow-lg bg-white flex flex-col items-start justify-center rounded-xl p-5 gap-y-1">
+          <div className="card-metric-style md:w-55 lg:w-60 xl:w-70 h-30 gap-y-1">
             <div className="flex flex-row items-center justify-start">
               <Image
                 src="/crown-icon.svg"
@@ -139,7 +160,7 @@ function PortfolioIntro() {
             </p>
           </div>
 
-          <div className="w-60 h-25 shadow-lg bg-white flex flex-col items-start justify-center rounded-xl p-5 gap-y-1">
+          <div className="card-metric-style md:w-55 lg:w-60 xl:w-70 h-30 gap-y-1">
             <div className="flex flex-row items-center justify-start">
               <Image
                 src="/microscope-icon.svg"
